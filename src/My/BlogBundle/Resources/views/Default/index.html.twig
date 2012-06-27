@@ -11,10 +11,11 @@
 		<td>{{ post.id }}</td>
 		<td><a href="{{ path('blog_show', {'id':post.id})}}">{{ post.title }}</a></td>
 		<td>{{ post.createdAt|date('Y/m/d H:i:s') }}</td>
+		<td><a href="{{ path('blog_edit', {'id':post.id}) }}">Edit</a> <a href="{{ path('blog_delete', {'id':post.id}) }}">Delete</a></td>
 	</tr>
 	{% else %}
 	<tr>
-		<td colspan="3">No posts found</td>
+		<td colspan="4">No posts found</td>
 	</tr>
 	{% endfor %}
 </table>

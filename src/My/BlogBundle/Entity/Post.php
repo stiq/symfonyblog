@@ -3,6 +3,7 @@
 namespace My\BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * My\BlogBundle\Entity\Post
@@ -25,6 +26,9 @@ class Post
      * @var string $title
      *
      * @ORM\Column(name="title", type="string", length=255)
+	 * @Assert\NotBlank()
+	 * @Assert\MinLength(2)
+	 * @Assert\MaxLength(50)
      */
     private $title;
 
@@ -32,6 +36,8 @@ class Post
      * @var text $body
      *
      * @ORM\Column(name="body", type="text")
+	 * @Assert\NotBlank()
+	 * @Assert\MinLength(10)
      */
     private $body;
 
