@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
@@ -145,4 +146,25 @@ class Post
     {
         return $this->updatedAt;
     }
+	
+	/**
+	 * set values before persist
+	 * 
+	 * @ORM\PrePersist
+	 */
+	public function prePersist()
+	{
+		$this->createdAt = new \DateTime();
+		$this->updatedAt = new \DateTime();
+	}
+	
+	/**
+	 * set values before update
+	 * 
+	 * @ORM\PreUpdate
+	 */
+	public function preUpdate()
+	{
+		$this->updatedAt = new \DateTime();
+	}
 }

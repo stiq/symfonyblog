@@ -1,9 +1,20 @@
+{% extends 'MyBlogBundle::layout.html.twig' %}
+
+{% block body %}
+
+{% if app.session.hasFlash('my_blog') %}
+<div style="background-color: yellow;color: red;font-weight: bold;">
+	{{ app.session.flash('my_blog') }}
+</div>
+{% endif %}
+
 <h1>Blog posts</h1>
 <table>
 	<tr>
 		<td>Id</td>
 		<td>Title</td>
 		<td>CreatedAt</td>
+		<td>Operation</td>
 	</tr>
 	{# ここから、posts配列をループして、投稿記事の情報を表示 #}
 	{% for post in posts %}
@@ -22,3 +33,4 @@
 <div>
 	<a href="{{ path('blog_new')}}">add post</a>
 </div>
+{% endblock %}

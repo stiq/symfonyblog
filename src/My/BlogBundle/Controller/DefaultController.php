@@ -5,6 +5,7 @@ namespace My\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use My\BlogBundle\Entity\Post;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use My\BlogBundle\Form\PostType;
 
 class DefaultController extends Controller
 {
@@ -18,10 +19,11 @@ class DefaultController extends Controller
 	public function newAction()
 	{
 		// フォームのビルド
-		$form = $this->createFormBuilder(new Post())
-			->add('title')
-			->add('body')
-			->getForm();	
+		//$form = $this->createFormBuilder(new Post())
+			//->add('title')
+			//->add('body')
+			//->getForm();
+		$form = $this->createForm(new PostType(), new Post());	
 		// バリデーション
 		$request = $this->getRequest();
 		if('POST' === $request->getMethod()) {
@@ -29,11 +31,12 @@ class DefaultController extends Controller
 			if($form->isValid()){
 				// エンティティを永続化
 				$post = $form->getData();
-				$post->setCreatedAt(new \DateTime());
-				$post->setUpdatedAt(new \DateTime());
+				//$post->setCreatedAt(new \DateTime());
+				//$post->setUpdatedAt(new \DateTime());
 				$em = $this->getDoctrine()->getEntityManager();
 				$em->persist($post);
 				$em->flush();
+				$this->get('session')->setFlash('my_blog', '記事を追加しました');
 				return $this->redirect($this->generateUrl('blog_index'));
 			}
 		}
@@ -58,6 +61,7 @@ class DefaultController extends Controller
 		}
 		$em->remove($post);
 		$em->flush();
+		$this->get('session')->setFlash('my_blog', '記事を削除しました');
 		return $this->redirect($this->generateUrl('blog_index'));
 	}
 	
@@ -70,10 +74,11 @@ class DefaultController extends Controller
 		}
 		
 		// フォームのビルド
-		$form = $this->createFormBuilder($post)
-			->add('title')
-			->add('body')
-			->getForm();
+		//$form = $this->createFormBuilder($post)
+			//->add('title')
+			//->add('body')
+			//->getForm();
+		$form = $this->createForm(new PostType(), $post);
 		
 		// バリデーション
 		$request = $this->getRequest();
@@ -82,8 +87,9 @@ class DefaultController extends Controller
 			if($form->isValid()) {
 				// 更新されたエンティティをデータベースに保存
 				$post = $form->getData();
-				$post->setUpdatedAt(new \DateTime());
+				//$post->setUpdatedAt(new \DateTime());
 				$em->flush();
+				$this->get('session')->setFlash('my_blog', '記事を編集しました');
 				return $this->redirect($this->generateUrl('blog_index'));
 			}
 		}
